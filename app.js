@@ -3,8 +3,10 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const methodOverride = require('method-override');
+
 const globalErrorHandler = require('./controllers/errorController');
 const AppError = require('./utils/AppError');
+const userRouter = require('./routes/userRoutes');
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -19,11 +21,11 @@ app.use(bodyParser.urlencoded({ limit: '10mb', extended: false }));
 app.use(cookieParser());
 
 //routes
+app.use('/api/v1/user', userRouter);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 
 app.use(globalErrorHandler);
-
 module.exports = app;
