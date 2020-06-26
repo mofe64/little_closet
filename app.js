@@ -7,6 +7,8 @@ const methodOverride = require('method-override');
 const globalErrorHandler = require('./controllers/errorController');
 const AppError = require('./utils/AppError');
 const userRouter = require('./routes/userRoutes');
+const categoryRouter = require('./routes/categoryRoutes');
+const vendorRouter = require('./routes/vendorRoutes');
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -22,6 +24,8 @@ app.use(cookieParser());
 
 //routes
 app.use('/api/v1/user', userRouter);
+app.use('/api/v1/category', categoryRouter);
+app.use('/api/v1/vendor', vendorRouter);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));

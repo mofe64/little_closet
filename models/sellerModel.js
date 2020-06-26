@@ -50,6 +50,12 @@ const sellerSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Please tell us the name of your bank'],
     },
+    totalAmountInSale: {
+      type: Number,
+    },
+    totalSalesMade: {
+      type: Number,
+    },
     passwordChangedAt: {
       type: Date,
     },
@@ -81,6 +87,15 @@ const sellerSchema = new mongoose.Schema(
 
 sellerSchema.pre(/^find/, function (next) {
   this.find({ active: { $ne: false } });
+  next();
+});
+
+sellerSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'inventory',
+    select:
+      '-__v -productSizes -productImages -productCategory -productDescription',
+  });
   next();
 });
 

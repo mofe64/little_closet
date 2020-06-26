@@ -4,6 +4,7 @@ const productSchema = new mongoose.Schema({
   productName: {
     type: String,
     required: [true, 'Product must have a name'],
+    lowercase: true,
   },
   productDescription: {
     type: String,
@@ -13,8 +14,8 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Prpduct must have a main image'],
   },
-  productSize: {
-    type: String,
+  productSizes: {
+    type: [String],
     enum: {
       values: ['s', 'm', 'l', 'xl'],
       message: 'Size must be either: s, m, l, xl and must be in lowecase',
@@ -24,6 +25,7 @@ const productSchema = new mongoose.Schema({
   productImages: [String],
   productColor: {
     type: String,
+    lowercase: true,
   },
   productPrice: {
     type: Number,
@@ -33,8 +35,9 @@ const productSchema = new mongoose.Schema({
   productCurrency: {
     type: String,
     required: [true, 'Currency product is to be sold in must be stated'],
+    lowercase: true,
   },
-  category: [
+  productCategory: [
     {
       type: mongoose.Schema.ObjectId,
       ref: 'Category',
